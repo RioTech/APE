@@ -5,6 +5,8 @@ package com.cognizant.telstra.adaptor;
 
 import java.util.List;
 
+import android.app.Activity;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 
 import com.cognizant.telstra.R;
 import com.cognizant.telstra.bean.Facts.FactsList;
+import com.cognizant.telstra.util.ImageLoader;
 
 /**
  * @author Ravi Bhojani
@@ -23,11 +26,15 @@ public class RecycleAdaptor extends RecyclerView.Adapter<RecycleAdaptor.ViewHold
 {
 
 	private List<FactsList> listOfFacts;
+	private ImageLoader imageLoader;
+	private Context context;
 	
 	
-	public RecycleAdaptor(List<FactsList> listOfFacts)
+	public RecycleAdaptor(List<FactsList> listOfFacts, Context context)
 	{
+		this.context = context;
 		this.listOfFacts = listOfFacts;
+		imageLoader = new ImageLoader(context);
 	}
 	
 	@Override
@@ -40,8 +47,9 @@ public class RecycleAdaptor extends RecyclerView.Adapter<RecycleAdaptor.ViewHold
 	public void onBindViewHolder(ViewHolder holder, int position)
 	{
 		FactsList factsList = listOfFacts.get(position);
-		holder.title.setText(factsList.getTitle());
-		holder.description.setText(factsList.getDescription());
+		holder.titleTV.setText(factsList.getTitle());
+		holder.descriptionTV.setText(factsList.getDescription());
+		imageLoader.DisplayImage(factsList.imageUrl, (Activity)context, holder.logoIV);
 	}
 
 	@Override
@@ -53,15 +61,15 @@ public class RecycleAdaptor extends RecyclerView.Adapter<RecycleAdaptor.ViewHold
 
 	public static class ViewHolder extends RecyclerView.ViewHolder
 	{
-		public ImageView image;
-		public TextView title, description;
+		public ImageView logoIV;
+		public TextView titleTV, descriptionTV;
 
 		public ViewHolder(View view)
 		{
 			super(view);
-			description = (TextView) view.findViewById(R.id.descriptionTV);
-			title = (TextView) view.findViewById(R.id.titleTV);
-			image = (ImageView) view.findViewById(R.id.imageView);
+			descriptionTV = (TextView) view.findViewById(R.id.descriptionTV);
+			titleTV = (TextView) view.findViewById(R.id.titleTV);
+			logoIV = (ImageView) view.findViewById(R.id.imageView);
 		}
 	}
 }

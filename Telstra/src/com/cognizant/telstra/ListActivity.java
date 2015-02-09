@@ -59,10 +59,19 @@ public class ListActivity extends ActionBarActivity implements OnRefreshListener
 					@Override
 					public void run()
 					{
-						dialog.dismiss();
-						if(data != null)
+						if(dialog != null && dialog.isShowing())
 						{
-							recyclerView.setAdapter(new RecycleAdaptor(((Facts)data).getFactsList()));
+							dialog.dismiss();
+						}
+						
+						Facts facts = (Facts) data;
+						if(facts != null)
+						{
+							if(facts.factsTitle != null)
+							{
+								getSupportActionBar().setTitle(facts.factsTitle);
+							}
+							recyclerView.setAdapter(new RecycleAdaptor(facts.getFactsList(),ListActivity.this));
 						}
 					}
 				});
@@ -83,7 +92,10 @@ public class ListActivity extends ActionBarActivity implements OnRefreshListener
 					@Override
 					public void run()
 					{
-						dialog.dismiss();
+						if(dialog != null && dialog.isShowing())
+						{
+							dialog.dismiss();
+						}
 					}
 				});
 				Log.e(LOG_TAG, "Exception "+e.getMessage(),e);
