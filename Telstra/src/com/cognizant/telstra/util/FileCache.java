@@ -29,7 +29,7 @@ public class FileCache
 
 	public File getFile(String url)
 	{
-		// I identify images by hashcode. Not a perfect solution, good for the
+		//identify images by hashcode. Not a perfect solution, good for the
 		// demo.
 		if (null != url)
 		{
