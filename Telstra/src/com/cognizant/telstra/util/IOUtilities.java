@@ -1,6 +1,5 @@
 package com.cognizant.telstra.util;
 
-
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileDescriptor;
@@ -12,24 +11,26 @@ import java.io.OutputStream;
 import android.os.Environment;
 
 /**
- * A helper class that assists in IO tasks such as getting File Objects,
- * reading and writing to streams.
+ * A helper class that assists in IO tasks such as getting File Objects, reading
+ * and writing to streams.
+ * 
  * @author Ravi Bhojani
- *
+ * 
  */
 public final class IOUtilities
 {
-	
+
 	private static final String LOG_TAG = IOUtilities.class.getSimpleName();
 
 	public static final String THUMBNAIL_CACHE_DIRECTORY = "thumbnails";
 	public static final String PHOTOS_CACHE_DIRECTORY = "photos";
-	
+
 	public static final int IO_BUFFER_SIZE = 4 * 1024;
-	
+
 	/* Enforce static usage using private constructor */
-	private IOUtilities(){
-		
+	private IOUtilities()
+	{
+
 	}
 
 	public static File getExternalFile(String file)
@@ -39,8 +40,7 @@ public final class IOUtilities
 
 	/**
 	 * Copy the content of the input stream into the output stream, using a
-	 * temporary byte array buffer whose size is defined by
-	 * IO_BUFFER_SIZE
+	 * temporary byte array buffer whose size is defined by IO_BUFFER_SIZE
 	 * 
 	 * @param in
 	 *            The input stream to copy from.
@@ -73,16 +73,18 @@ public final class IOUtilities
 			try
 			{
 				stream.close();
-			} catch (IOException e)
+			}
+			catch (IOException e)
 			{
 				android.util.Log.e(LOG_TAG, "Could not close stream", e);
 			}
 		}
 	}
 
-	
-	/** Returns the File Descriptor of specified fileName
-	 * @throws Exception 
+	/**
+	 * Returns the File Descriptor of specified fileName
+	 * 
+	 * @throws Exception
 	 * */
 	public static FileDescriptor getFile(String filename) throws Exception
 	{

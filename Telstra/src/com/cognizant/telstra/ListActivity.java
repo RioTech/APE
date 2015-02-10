@@ -44,7 +44,24 @@ public class ListActivity extends ActionBarActivity implements OnRefreshListener
 		recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 		recyclerView.setLayoutManager(new LinearLayoutManager(this));
 		
-		//Prepared request for get 
+		//Load the data from the server.
+		serviceCall();
+	}
+
+	
+	@Override
+	public void onRefresh() {
+		
+		//Refresh the data.
+		serviceCall();
+	}
+	
+	/**
+	 * This method will prepare request, send to server and update the listview
+	 */
+	public void serviceCall()
+	{
+		//Prepared request for get call
 		Request request = new Request.RequestBuilder(DOWNLOAD_URL)
 									.httpMethod(HttpConstant.GET_METHOD)
 									.build();
@@ -59,9 +76,16 @@ public class ListActivity extends ActionBarActivity implements OnRefreshListener
 					@Override
 					public void run()
 					{
-						if(dialog != null && dialog.isShowing())
+						if(swipeRefreshLayout.isRefreshing())
 						{
-							dialog.dismiss();
+							swipeRefreshLayout.setRefreshing(false);
+						}
+						else
+						{
+							if(dialog != null && dialog.isShowing())
+							{
+								dialog.dismiss();
+							}
 						}
 						
 						Facts facts = (Facts) data;
@@ -69,9 +93,10 @@ public class ListActivity extends ActionBarActivity implements OnRefreshListener
 						{
 							if(facts.factsTitle != null)
 							{
+								//Set title to action bar
 								getSupportActionBar().setTitle(facts.factsTitle);
 							}
-							recyclerView.setAdapter(new RecycleAdaptor(facts.getFactsList(),ListActivity.this));
+							recyclerView.setAdapter(new RecycleAdaptor(facts.factsList,ListActivity.this));
 						}
 					}
 				});
@@ -81,7 +106,14 @@ public class ListActivity extends ActionBarActivity implements OnRefreshListener
 			@Override
 			public void onPreExecute()
 			{
-				dialog = ProgressDialog.show(ListActivity.this, "Loading", "Loading");
+				if(swipeRefreshLayout.isRefreshing())
+				{
+					swipeRefreshLayout.setRefreshing(false);
+				}
+				else
+				{
+					dialog = ProgressDialog.show(ListActivity.this, "APE", "Loading");
+				}
 			}
 			
 			@Override
@@ -92,9 +124,16 @@ public class ListActivity extends ActionBarActivity implements OnRefreshListener
 					@Override
 					public void run()
 					{
-						if(dialog != null && dialog.isShowing())
+						if(swipeRefreshLayout.isRefreshing())
 						{
-							dialog.dismiss();
+							swipeRefreshLayout.setRefreshing(false);
+						}
+						else
+						{
+							if(dialog != null && dialog.isShowing())
+							{
+								dialog.dismiss();
+							}
 						}
 					}
 				});
@@ -104,20 +143,31 @@ public class ListActivity extends ActionBarActivity implements OnRefreshListener
 			@Override
 			public void onError(Object data, int httpStatus, Map<String, List<String>> responseHeader)
 			{
-				
+				runOnUiThread(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						if(swipeRefreshLayout.isRefreshing())
+						{
+							swipeRefreshLayout.setRefreshing(false);
+						}
+						else
+						{
+							if(dialog != null && dialog.isShowing())
+							{
+								dialog.dismiss();
+							}
+						}
+					}
+				});
+				Log.e(LOG_TAG, "Error from server"+httpStatus);
 			}
 		}, new Facts(), null).build();
 		
-		
+		//Service call to fetch the data
 		ServiceCallAsyncTask asyncTask = new ServiceCallAsyncTask(this,serviceBean);
 		asyncTask.execute();
-	}
-
-	
-	@Override
-	public void onRefresh() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

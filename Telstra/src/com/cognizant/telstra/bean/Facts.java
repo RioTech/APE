@@ -27,9 +27,6 @@ public class Facts implements Serializable
 	
 	public static class FactsList implements Serializable
 	{
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
 		
 		public String title;
@@ -38,49 +35,6 @@ public class Facts implements Serializable
 		@JsonProperty("imageHref")
 		public String imageUrl;
 		
-		public String getTitle()
-		{
-			return title;
-		}
-		public void setTitle(String title)
-		{
-			this.title = title;
-		}
-		public String getDescription()
-		{
-			return description;
-		}
-		public void setDescription(String description)
-		{
-			this.description = description;
-		}
-		public String getImageUrl()
-		{
-			return imageUrl;
-		}
-		public void setImageUrl(String imageUrl)
-		{
-			this.imageUrl = imageUrl;
-		}
 	}
 
-	public String getTitle()
-	{
-		return factsTitle;
-	}
-
-	public void setTitle(String factsTitle)
-	{
-		this.factsTitle = factsTitle;
-	}
-
-	public List<FactsList> getFactsList()
-	{
-		return factsList;
-	}
-
-	public void setFactsList(List<FactsList> factsList)
-	{
-		this.factsList = factsList;
-	}
 }

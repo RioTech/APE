@@ -12,17 +12,18 @@ import java.net.URL;
 
 /**
  * @author Ravi Bhojani
- *
- *This class handle all the operation related to HTTP
+ * 
+ *         This class handle all the operation related to HTTP
  */
-public class HttpManager {
+public class HttpManager
+{
 
-	public InputStream getResponse(String request) throws MalformedURLException,IOException,Exception
+	public InputStream getResponse(String request) throws MalformedURLException, IOException, Exception
 	{
 		URL url = new URL(request);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-		InputStream is =  connection.getInputStream();
-		if(connection.getResponseCode() == HttpURLConnection.HTTP_OK)
+		InputStream is = connection.getInputStream();
+		if (connection.getResponseCode() == HttpURLConnection.HTTP_OK)
 		{
 			return is;
 		}

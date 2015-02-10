@@ -47,9 +47,16 @@ public class RecycleAdaptor extends RecyclerView.Adapter<RecycleAdaptor.ViewHold
 	public void onBindViewHolder(ViewHolder holder, int position)
 	{
 		FactsList factsList = listOfFacts.get(position);
-		holder.titleTV.setText(factsList.getTitle());
-		holder.descriptionTV.setText(factsList.getDescription());
-		imageLoader.DisplayImage(factsList.imageUrl, (Activity)context, holder.logoIV);
+		holder.titleTV.setText(factsList.title);
+		holder.descriptionTV.setText(factsList.description);
+		if(factsList.imageUrl != null)
+		{
+			imageLoader.DisplayImage(factsList.imageUrl, (Activity)context, holder.logoIV);
+		}
+		else
+		{
+			holder.logoIV.setImageBitmap(null);
+		}
 	}
 
 	@Override
