@@ -30,25 +30,36 @@ public class RecycleAdaptor extends RecyclerView.Adapter<RecycleAdaptor.ViewHold
 	private Context context;
 	
 	
-	public RecycleAdaptor(List<FactsList> listOfFacts, Context context)
+	public RecycleAdaptor(Context context)
 	{
 		this.context = context;
-		this.listOfFacts = listOfFacts;
 		imageLoader = new ImageLoader(context);
+	}
+	
+	public void addAll(List<FactsList> listOfFacts)
+	{
+		this.listOfFacts = listOfFacts;
 	}
 	
 	@Override
 	public int getItemCount()
 	{
-		return listOfFacts.size();
+		//If list is null then return zero row else return size
+		return listOfFacts != null ? listOfFacts.size() : 0;
 	}
 
 	@Override
 	public void onBindViewHolder(ViewHolder holder, int position)
 	{
 		FactsList factsList = listOfFacts.get(position);
-		holder.titleTV.setText(factsList.title);
-		holder.descriptionTV.setText(factsList.description);
+		if(factsList.title != null)
+		{
+			holder.titleTV.setText(factsList.title);
+		}
+		if(factsList.description != null)
+		{
+			holder.descriptionTV.setText(factsList.description);
+		}
 		if(factsList.imageUrl != null)
 		{
 			imageLoader.DisplayImage(factsList.imageUrl, (Activity)context, holder.logoIV);

@@ -14,9 +14,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Facts implements Serializable
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1736434529771002789L;
 
 	@JsonProperty("title")
@@ -34,7 +31,5 @@ public class Facts implements Serializable
 		
 		@JsonProperty("imageHref")
 		public String imageUrl;
-		
 	}
-
 }

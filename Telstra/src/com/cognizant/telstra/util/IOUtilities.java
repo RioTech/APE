@@ -27,12 +27,6 @@ public final class IOUtilities
 
 	public static final int IO_BUFFER_SIZE = 4 * 1024;
 
-	/* Enforce static usage using private constructor */
-	private IOUtilities()
-	{
-
-	}
-
 	public static File getExternalFile(String file)
 	{
 		return new File(Environment.getExternalStorageDirectory(), file);

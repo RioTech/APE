@@ -33,6 +33,7 @@ public class ListActivity extends ActionBarActivity implements OnRefreshListener
 	private final String DOWNLOAD_URL = "https://dl.dropboxusercontent.com/u/746330/facts.json";
 	private ProgressDialog dialog;
 	private final String LOG_TAG = ListActivity.class.getSimpleName();
+	private RecycleAdaptor recycleAdaptor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +45,11 @@ public class ListActivity extends ActionBarActivity implements OnRefreshListener
 		
 		recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 		recyclerView.setLayoutManager(new LinearLayoutManager(this));
+		recycleAdaptor = new RecycleAdaptor(ListActivity.this);
+		recyclerView.setAdapter(recycleAdaptor);
 		
 		//Load the data from the server.
-		serviceCall();
+		loadDataFromNetwork();
 	}
 
 	
@@ -54,13 +57,13 @@ public class ListActivity extends ActionBarActivity implements OnRefreshListener
 	public void onRefresh() {
 		
 		//Refresh the data.
-		serviceCall();
+		loadDataFromNetwork();
 	}
 	
 	/**
 	 * This method will prepare request, send to server and update the listview
 	 */
-	public void serviceCall()
+	public void loadDataFromNetwork()
 	{
 		//Prepared request for get call
 		Request request = new Request.RequestBuilder(DOWNLOAD_URL)
@@ -77,6 +80,7 @@ public class ListActivity extends ActionBarActivity implements OnRefreshListener
 					@Override
 					public void run()
 					{
+						//If user has swipe for refresh then stop showing refresh view else dismiss loading bar
 						if(swipeRefreshLayout.isRefreshing())
 						{
 							swipeRefreshLayout.setRefreshing(false);
@@ -97,7 +101,11 @@ public class ListActivity extends ActionBarActivity implements OnRefreshListener
 								//Set title to action bar
 								getSupportActionBar().setTitle(facts.factsTitle);
 							}
-							recyclerView.setAdapter(new RecycleAdaptor(facts.factsList,ListActivity.this));
+							if(facts.factsList != null)
+							{
+								recycleAdaptor.addAll(facts.factsList);
+								recycleAdaptor.notifyDataSetChanged();
+							}
 						}
 					}
 				});
@@ -107,14 +115,11 @@ public class ListActivity extends ActionBarActivity implements OnRefreshListener
 			@Override
 			public void onPreExecute()
 			{
-				if(swipeRefreshLayout.isRefreshing())
-				{
-					swipeRefreshLayout.setRefreshing(false);
-				}
-				else
+				if(!swipeRefreshLayout.isRefreshing())
 				{
 					dialog = ProgressDialog.show(ListActivity.this, "APE", "Loading");
 				}
+				
 			}
 			
 			@Override
@@ -125,6 +130,7 @@ public class ListActivity extends ActionBarActivity implements OnRefreshListener
 					@Override
 					public void run()
 					{
+						//If user has swipe for refresh then stop showing refresh view else dismiss the loading bar
 						if(swipeRefreshLayout.isRefreshing())
 						{
 							swipeRefreshLayout.setRefreshing(false);
@@ -149,6 +155,7 @@ public class ListActivity extends ActionBarActivity implements OnRefreshListener
 					@Override
 					public void run()
 					{
+						//If user has swipe for refresh then stop showing refresh view else dismiss the loading bar
 						if(swipeRefreshLayout.isRefreshing())
 						{
 							swipeRefreshLayout.setRefreshing(false);

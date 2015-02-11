@@ -1,8 +1,5 @@
 package com.cognizant.telstra.util;
 
-/**
- * 
- */
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,13 +21,10 @@ import android.widget.ImageView;
 
 /**
  * This class load image in background and cache it
- * 
- * @author Ravi Bhojani
- * 
  */
+
 public class ImageLoader
 {
-
 	private static final String TAG = ImageLoader.class.getSimpleName();
 	private MemoryCache memoryCache = new MemoryCache();
 	private Context context;
@@ -52,11 +46,12 @@ public class ImageLoader
 		imageViews.put(imageView, url);
 		Bitmap bitmap = memoryCache.get(url);
 		if (bitmap != null)
+		{
 			imageView.setImageBitmap(bitmap);
+		}
 		else
 		{
 			queuePhoto(url, activity, imageView);
-
 		}
 	}
 

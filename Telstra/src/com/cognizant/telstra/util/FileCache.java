@@ -5,6 +5,8 @@ import java.io.File;
 import android.content.Context;
 
 /**
+ * This class deals with file related transactions. It create new cache file directory,
+ * finds file in the directory and clear it from cache when required.
  * 
  * @author Ravi Bhojani
  * 
@@ -33,8 +35,8 @@ public class FileCache
 		// demo.
 		if (null != url)
 		{
-			String filename = String.valueOf(url.hashCode());
-			File f = new File(cacheDir, filename);
+			//String filename = String.valueOf(url); //.hashCode()
+			File f = new File(cacheDir, url);
 			return f;
 		}
 		return null;

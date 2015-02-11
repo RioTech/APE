@@ -7,12 +7,16 @@ package com.cognizant.telstra.util;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import android.util.Log;
+
 /**
  * @author Ravi Bhojani
  * 
  */
 public class Utils
 {
+	private final static String LOG_TAG = Utils.class.getName();
+	
 	public static void CopyStream(InputStream is, OutputStream os)
 	{
 		final int buffer_size = 1024;
@@ -27,8 +31,9 @@ public class Utils
 				os.write(bytes, 0, count);
 			}
 		}
-		catch (Exception ex)
+		catch (Exception e)
 		{
+			Log.i(LOG_TAG, "Exception "+e.getMessage(),e);
 		}
 	}
 }
